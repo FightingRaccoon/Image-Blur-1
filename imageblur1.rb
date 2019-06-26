@@ -42,3 +42,6 @@ image = Image.new([
 
 image.output_image
 
+
+
+#Notes (git push github master) 
