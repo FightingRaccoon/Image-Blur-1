@@ -1,47 +1,53 @@
 class Image
   
     def initialize(image_array)
-        @array = []
-        @array << Array.new(image_array[0][0..3])
-        @array << Array.new(image_array[1][0..3])
-        @array << Array.new(image_array[2][0..3])
-        @array << Array.new(image_array[3][0..3])
-
+        @image_array = image_array
+        @location = []
     end 
 
     def output_image
-        @array.each do |list|
-          list.num_display
+        @image_array.each do |list|
+          puts list.join(" ")
       end
     end
-end
 
-class Array
-    attr_accessor :num1, :num2, :num3, :num4
-
-    def initialize(array)
-        @num1 = array[0]
-        @num2 = array[1]
-        @num3 = array[2]
-        @num4 = array[3]
+    def locate
+      # find the all the "1"
+      # find the location of the "1" 
+      @image_array.each_with_index do |prim_arr, vertical|
+        prim_arr.each_with_index do |num, horz|
+          if num == 1
+            @location << [vertical, horz]
+          end
+        end
+      end
     end
 
-    def num_display
-        puts "#{num1}#{num2}#{num3}#{num4}"
-    end
+    def blur 
+        @location.each do |found_vertical, found_horz|
+            @image_array[found_vertical - 1][found_horz] = 1 unless found_vertical == 0
+            @image_array[found_vertical + 1][found_horz] = 1 unless found_vertical >= @image_array.length - 1
+            @image_array[found_vertical][found_horz - 1] = 1 unless found_horz == 0
+            @image_array[found_vertical][found_horz + 1] = 1 unless found_horz >= @image_array.length - 1
+          end
+    end 
 end
+
 
 
 image = Image.new([
-  [0, 0, 0, 0],
-  [0, 1, 0, 0],
-  [0, 0, 0, 1],
-  [0, 0, 0, 0],
-  [0, 1, 1, 0]
+  [0, 0, 0, 0, 1],
+  [0, 1, 0, 0, 0],
+  [0, 0, 0, 1, 0],
+  [0, 0, 0, 0, 0],
+  [0, 1, 1, 0, 0]
 ])
+image.output_image
+puts
+image.locate
+image.blur
 
 image.output_image
-
 
 
 #Notes (git push github master) 
