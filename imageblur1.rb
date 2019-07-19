@@ -23,29 +23,28 @@ class Image
       end
     end
 
-    def blur 
+    def blur(distance)
         @location.each do |found_vertical, found_horz|
-            @image_array[found_vertical - 1][found_horz] = 1 unless found_vertical == 0
-            @image_array[found_vertical + 1][found_horz] = 1 unless found_vertical >= @image_array.length - 1
-            @image_array[found_vertical][found_horz - 1] = 1 unless found_horz == 0
-            @image_array[found_vertical][found_horz + 1] = 1 unless found_horz >= @image_array.length - 1
+            @image_array[found_vertical - distance][found_horz] = 1 unless found_vertical < distance
+            @image_array[found_vertical + distance][found_horz] = 1 unless found_vertical >= @image_array.length - distance
+            @image_array[found_vertical][found_horz - distance] = 1 unless found_horz < distance
+            @image_array[found_vertical][found_horz + distance] = 1 unless found_horz >= @image_array.length - distance
           end
     end 
 end
-
-
+# 
 
 image = Image.new([
-  [0, 0, 0, 0, 1],
+  [0, 0, 0, 0, 0],
   [0, 1, 0, 0, 0],
   [0, 0, 0, 1, 0],
   [0, 0, 0, 0, 0],
-  [0, 1, 1, 0, 0]
+  [0, 0, 0, 0, 0]
 ])
 image.output_image
 puts
 image.locate
-image.blur
+image.blur(2)
 
 image.output_image
 
